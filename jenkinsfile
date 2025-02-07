@@ -10,9 +10,9 @@ pipeline {
 
            steps {
 
-               git branch: 'master',
+               git branch: 'main',
 
-               url: 'https://github.com/Tahermabrouk1/devops.git'
+               url: 'https://github.com/Tahermabrouk1/devops-project.git'
 
           }
 
