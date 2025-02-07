@@ -1,6 +1,10 @@
 pipeline {
-
     agent any
+
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64/'
+        M2_HOME = '/opt/apache-maven-3.6.3'
+    }
 
     tools {
         jdk 'JAVA_HOME'
@@ -8,11 +12,9 @@ pipeline {
     }
 
     stages {
-
         stage('GIT') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Tahermabrouk1/devops-project.git'
+                git branch: 'main', url: 'https://github.com/Tahermabrouk1/devops-project.git'
             }
         }
 
@@ -21,7 +23,5 @@ pipeline {
                 sh 'mvn clean compile'
             }
         }
-
     }
-
 }
