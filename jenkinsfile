@@ -1,33 +1,23 @@
 pipeline {
+    agent any
 
- agent any
+    tools {
+        jdk "${JAVA_HOME}"  // Utilisation des guillemets doubles pour les variables d'environnement
+        maven "${M2_HOME}"  // Utilisation des guillemets doubles pour les variables d'environnement
+    }
 
- tools {jdk '$JAVA_HOME’, maven '$M2_HOME'}
+    stages {
+        stage('GIT') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Tahermabrouk1/devops-project.git'
+            }
+        }
 
- stages {
-
- stage('GIT') {
-
-           steps {
-
-               git branch: 'main',
-
-               url: 'https://github.com/Tahermabrouk1/devops-project.git'
-
-          }
-
-     }
-
- stage ('Compile Stage') {
-
- steps {
-
- sh 'mvn clean compile'
-
- }
-
- }
-
- }
-
+        stage('Compile Stage') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+    }
 }
