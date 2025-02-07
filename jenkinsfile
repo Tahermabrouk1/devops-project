@@ -1,16 +1,20 @@
 pipeline {
     agent any
 
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'  // Remplacez par le chemin correct
+        M2_HOME = '/opt/apache-maven-3.6.3'  // Remplacez par le chemin correct
+    }
+
     tools {
-        jdk "${JAVA_HOME}"  // Utilisation des guillemets doubles pour les variables d'environnement
-        maven "${M2_HOME}"  // Utilisation des guillemets doubles pour les variables d'environnement
+        jdk "${JAVA_HOME}"
+        maven "${M2_HOME}"
     }
 
     stages {
         stage('GIT') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Tahermabrouk1/devops-project.git'
+                git branch: 'main', url: 'https://github.com/Tahermabrouk1/devops-project.git'
             }
         }
 
