@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        jdk "${JAVA_HOME}"  // Utilisation des guillemets doubles pour les variables d'environnement
-        maven "${M2_HOME}"  // Utilisation des guillemets doubles pour les variables d'environnement
+        jdk "JAVA_HOME"  // Utilisation des guillemets doubles pour les variables d'environnement
+        maven "M2_HOME"  // Utilisation des guillemets doubles pour les variables d'environnement
     }
 
     stages {
