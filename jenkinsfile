@@ -1,33 +1,28 @@
 pipeline {
+    agent any
 
- agent any
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        M2_HOME = '/opt/apache-maven-3.6.3'
+    }
 
- tools {jdk '$JAVA_HOME’, maven '$M2_HOME'}
+    tools {
+        jdk 'JAVA_HOME'  // Assurez-vous que cet outil JDK est bien configuré dans Jenkins
+        maven 'M2_HOME'  // Assurez-vous que Maven est bien configuré dans Jenkins
+    }
 
- stages {
+    stages {
+        stage('GIT') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Tahermabrouk1/devops-project.git'
+            }
+        }
 
- stage('GIT') {
-
-           steps {
-
-               git branch: 'main',
-
-               url: 'https://github.com/Tahermabrouk1/devops-project.git'
-
-          }
-
-     }
-
- stage ('Compile Stage') {
-
- steps {
-
- sh 'mvn clean compile'
-
- }
-
- }
-
- }
-
+        stage('Compile Stage') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+    }
 }
