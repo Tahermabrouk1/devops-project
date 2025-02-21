@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        jdk "JAVA_HOME"  // Utilisation des guillemets doubles pour les variables d'environnement
-        maven "M2_HOME"  // Utilisation des guillemets doubles pour les variables d'environnement
+        jdk "JAVA_HOME"
+        maven "M2_HOME"
     }
 
     stages {
@@ -19,10 +19,19 @@ pipeline {
                 sh 'mvn clean compile'
             }
         }
+
         stage('SonarQube Analysis') {
-             steps {
-                 sh "mvn sonar:sonar -Dsonar/login=admin -Dsonar.password=taher131 -Dmaven.test.skip=true"
-             }
+            steps {
+                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_AUTH_TOKEN')]) {
+                    sh """
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=devops-project \
+                        -Dsonar.host.url=http://your-sonarqube-server:9000 \
+                        -Dsonar.login=\$SONAR_AUTH_TOKEN \
+                        -Dmaven.test.skip=true
+                    """
+                }
+            }
         }
     }
 }
