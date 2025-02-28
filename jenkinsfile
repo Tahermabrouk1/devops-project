@@ -25,17 +25,17 @@ pipeline {
         }
 
 
-        stage('Deploy to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'admin', passwordVariable: 'taher131')]) {
-                    sh """
-                        mvn deploy \
-                        -DaltDeploymentRepository=deploymentRepo::default::http://localhost:8081/repository/maven-releases/ \
-                        -DskipTests \
-                        --settings ~/.m2/settings.xml
-                    """
-                }
-            }
-        }
+stage('Deploy to Nexus') {
+    steps {
+        sh """
+            mvn deploy \
+            -DaltDeploymentRepository=nexus-releases::default::http://localhost:8081/repository/maven-releases/ \
+            -DrepositoryId=nexus-releases \
+            -Dusername=admin \
+            -Dpassword=taher131
+        """
+    }
+}
+
     }
 }
