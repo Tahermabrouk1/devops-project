@@ -6,6 +6,10 @@ pipeline {
         maven "M2_HOME"
     }
 
+    environment {
+        MVN_CLI_OPTS = '-DskipTests'
+    }
+
     stages {
         stage('GIT') {
             steps {
@@ -28,6 +32,19 @@ pipeline {
                         -Dsonar.host.url=http://192.167.33.10:9000 \
                         -Dsonar.login=\$SONAR_AUTH_TOKEN \
                         -Dmaven.test.skip=true
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh """
+                        mvn deploy \
+                        -DaltDeploymentRepository=deploymentRepo::default::http://localhost:8081/repository/maven-releases/ \
+                        -DskipTests \
+                        --settings ~/.m2/settings.xml
                     """
                 }
             }
