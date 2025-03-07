@@ -44,7 +44,7 @@ pipeline {
                     docker push tahermabrouk1/devops-project:latest
                     docker push tahermabrouk1/devops-project:v1.0
                     """
-                }
+
             }
         }
     }
