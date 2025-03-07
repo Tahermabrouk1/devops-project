@@ -39,6 +39,7 @@ pipeline {
                steps {
                    sh """
                    docker login -u tahermabrouk1 -p taher+94244512
+                   docker tag tahermabrouk/devops-project:latest tahermabrouk/devops-project:v1.0
                    docker push tahermabrouk/devops-project:latest
                    """
                }
