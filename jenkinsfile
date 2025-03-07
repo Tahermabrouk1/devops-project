@@ -2,61 +2,46 @@ pipeline {
     agent any
 
     tools {
-        jdk "JAVA_HOME"    // Ensure "JAVA_HOME" is configured in Jenkins Global Tool Configuration
-        maven "M2_HOME"    // Ensure "M2_HOME" is configured in Jenkins Global Tool Configuration
+        jdk "JAVA_HOME"
+        maven "M2_HOME"
     }
 
     environment {
-        MVN_CLI_OPTS = '-DskipTests'    // Defined but not used; applied directly in steps instead
-        DOCKER_IMAGE = 'tahermabrouk/devops-project:latest'  // Centralized Docker image name
+        MVN_CLI_OPTS = '-DskipTests'
     }
 
     stages {
-        // Removed redundant 'GIT' stage since 'agent any' with SCM checkout is sufficient
-        // Jenkins automatically checks out the SCM if defined in the pipeline or job config
+        stage('GIT') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Tahermabrouk1/devops-project.git'
+            }
+        }
 
-        stage('Compile') {
+        stage('Compile Stage') {
             steps {
                 sh 'mvn clean compile'
             }
         }
 
-        stage('Package') {
+        stage('Package Stage') {
             steps {
                 sh 'mvn package -DskipTests'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Building Docker Image') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                sh 'docker build -t tahermabrouk/devops-project:latest .'
             }
         }
-
-stage('Deploy Image') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'docker-credentials',
-                                         usernameVariable: 'DOCKER_USER',
-                                         passwordVariable: 'DOCKER_PASS')]) {
-            sh '''
-                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                docker push "$DOCKER_IMAGE"
-            '''
-        }
-    }
-}
-    }
-
-    post {
-        always {
-            // Clean up workspace or Docker images if needed
-            sh 'docker system prune -f || true'  // Optional: Clean dangling images, ignores errors
-        }
-        success {
-            echo 'Build and deployment succeeded!'
-        }
-        failure {
-            echo 'Build or deployment failed.'
-        }
+           stage('deploy image') {
+               steps {
+                   sh """
+                   docker login -u tahermabrouk1 -p taher+94244512
+                   docker push tahermabrouk/devops-project:latest
+                   """
+               }
+           }
     }
 }
