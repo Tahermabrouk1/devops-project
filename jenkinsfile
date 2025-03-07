@@ -35,5 +35,12 @@ pipeline {
                 sh 'docker build -t tahermabrouk/devops-project:latest .'
             }
         }
+           stage('deploy image') {
+               steps {
+                   sh '
+                   docker push tahermabrouk/devops-project:latest
+                   '
+               }
+           }
     }
 }
