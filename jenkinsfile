@@ -38,7 +38,7 @@ pipeline {
            stage('deploy image') {
                steps {
                    sh """
-                   docker login -u tahermabrouk1 -p dckr_pat_MP1nwLXXsYlaSg-u4UaX0-nKmrM
+                   docker login -u tahermabrouk1 -p taher+94244512
                    docker push tahermabrouk/devops-project:latest
                    """
                }
