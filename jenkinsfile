@@ -35,12 +35,13 @@ pipeline {
                 sh 'docker build -t tahermabrouk/devops-project:latest .'
             }
         }
-           stage('deploy image') {
+           stage('Deploy Image') {
                steps {
-                   sh """
-                   docker login -u tahermabrouk1 -p taher+94244512
-                   docker push tahermabrouk/devops-project:latest
-                   """
+                       sh """
+                       echo docker login -u tahermabrouk1 --password-stdin taher+94244512
+                       docker push tahermabrouk/devops-project:latest
+                       """
+                   }
                }
            }
     }
