@@ -32,17 +32,20 @@ pipeline {
 
         stage('Building Docker Image') {
             steps {
-                sh 'docker build -t tahermabrouk/devops-project:latest .'
+                sh 'docker build -t tahermabrouk1/devops-project:latest .'
             }
         }
-           stage('deploy image') {
-               steps {
-                   sh """
-                   docker login -u tahermabrouk1 -p taher+94244512
-                   docker tag tahermabrouk/devops-project:latest tahermabrouk/devops-project:v1.0
-                   docker push tahermabrouk/devops-project:latest
-                   """
-               }
-           }
+
+        stage('deploy image') {
+            steps {
+                    sh """
+                    docker login -u tahermabrouk1 -p taher+94244512
+                    docker tag tahermabrouk1/devops-project:latest tahermabrouk1/devops-project:v1.0
+                    docker push tahermabrouk1/devops-project:latest
+                    docker push tahermabrouk1/devops-project:v1.0
+                    """
+                }
+            }
+        }
     }
 }
