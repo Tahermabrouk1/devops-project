@@ -32,6 +32,13 @@ stage('Deploy to Nexus') {
         """
     }
 }
+stage('building stage') {
+    steps {
+        sh """
+            docker build -t tahermabrouk/devops-project:latest .
+        """
+    }
+}
 
     }
 }
