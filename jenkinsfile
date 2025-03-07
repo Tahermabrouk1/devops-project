@@ -37,9 +37,7 @@ pipeline {
         }
            stage('deploy image') {
                steps {
-                   sh '
-                   docker push tahermabrouk/devops-project:latest
-                   '
+                   sh 'docker push tahermabrouk/devops-project:latest'
                }
            }
     }
