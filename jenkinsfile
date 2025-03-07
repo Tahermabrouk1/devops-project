@@ -24,21 +24,16 @@ pipeline {
             }
         }
 
+        stage('Package Stage') {
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+        }
 
-// stage('Deploy to Nexus') {
-//     steps {
-//         sh """
-//             mvn deploy -Dmaven.test.skip=true;
-//         """
-//     }
-// }
-stage('building stage') {
-    steps {
-        sh """
-            docker build -t tahermabrouk/devops-project:latest .
-        """
-    }
-}
-
+        stage('Building Docker Image') {
+            steps {
+                sh 'docker build -t tahermabrouk/devops-project:latest .'
+            }
+        }
     }
 }
